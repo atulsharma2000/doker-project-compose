@@ -1,0 +1,29 @@
+version: '3'
+services:
+  DruDBOS:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - mysql_drupal:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: atul
+      MYSQL_PASSWORD: redhaT
+      MYSQL_DATABASE: mydb
+  drupalOS:
+    image: drupal:8.8.5-apache
+    restart: always
+    ports:
+      - 5555:80
+    depends_on: 
+      - DruDBOS
+    environment:
+      DRUPAL_DB_HOST: dbOS
+      DRUPAL_DB_USER: atul
+      DRUPAL_DB_PASSWORD: redhaT
+      DRUPAL_DB_NAME: mydb
+    volumes:
+      - drupal_storage:/var/www/html
+volumes:
+  mysql_drupal:
+  drupal_storage:
